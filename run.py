@@ -4,7 +4,7 @@ from math import log, sqrt
 hm_carlo = 1_000_000
 
 
-hm_actions = 12
+hm_actions = 10
 
 win_rates = [random() for _ in range(hm_actions)]
 gains     = [random() for _ in range(hm_actions)]
@@ -14,7 +14,7 @@ played_times    = [0 for _ in range(hm_actions)]
 reward_sums     = [0 for _ in range(hm_actions)]
 upp_confidences = [999.9 for _ in range(hm_actions)]
 
-hm_steps = 12
+hm_steps = 1_000
 
 
 
