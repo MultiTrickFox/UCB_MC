@@ -15,34 +15,22 @@ def run():
 
     init_modules()
 
-    tests = [monte_carlo.run. ucb_simple.run]
+    tests = ['monte_carlo.run', 'ucb_simple.run']
     ids, exps = [], []
 
-    for test in input('Enter 0-3s with , : ').split(','):
-        id, exp = tests[int(test)]()
+    print(' 0- monte carlo        \n',
+          '1- ucb 1              \n',
+          '2- ucb discounted     \n',
+          '3- ucb sliding window \n')
+
+    for test in input('> Enter 0-3s with , : ').split(','):
+        id, exp = eval(tests[int(test)])()
         ids.append(id)
         exps.append(exp)
 
-    # # apply monte carlo
-    #
-    # id_mc, exp_mc = monte_carlo.run()
-    #
-    # # apply ucb-1
-    #
-    # id_ucb, exp_ucb = ucb_simple.run()
-    #
-    # # results
-    #
-    # print(f'\t action_id \t expected_gain \n',
-    #       f'monte carlo : \t {id_mc} \t {exp_mc[id_mc]} \n',
-    #       f'ucb-1: : \t {id_ucb} \t {exp_ucb} \n'
-    #       )
-    #
-    #
-    # print('winners ' + ('match.' if id_mc == id_ucb else 'do not match.'))
-
-
-
+    print('\t test \t confident_action \t expected_reward')
+    for _, (id, exp) in enumerate(zip(ids, exps)):
+        print(f'{tests[_][:-4]} \t {id} \t {exp}')
 
 
 

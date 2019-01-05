@@ -23,7 +23,6 @@ def run():
             else:
                 e += gains[_]
         expecteds.append(e)
-    expecteds = [e/hm_carlo for e in expecteds]
 
     # results
 
