@@ -6,7 +6,7 @@ class UCB_Sliding_Window {
 
 
 
-        double[] ret = {};
+        double[] ret = {0.0,0.0};
         return ret;
     }
 

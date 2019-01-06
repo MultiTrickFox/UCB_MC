@@ -12,6 +12,8 @@ class Brute {
 
     static void init(){
 
+        expecteds = new ArrayList<>();
+
         for (int action = 0; action < ActionData.hm_actions; action++) {
 
             double reward = 0.0;
@@ -22,7 +24,7 @@ class Brute {
 
             }
 
-            expecteds.add(reward);
+            expecteds.add(reward / hm_brute_steps);
 
         }
 
