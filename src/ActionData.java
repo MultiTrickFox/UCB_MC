@@ -22,7 +22,7 @@ class ActionData {
 
         random    = new Random();
 
-        for (int i = 0; i < hm_actions; i++){
+        for (int id = 0; id < hm_actions; id++){
 
             win_rates.add(random.nextFloat());
             gains.add(random.nextFloat());
@@ -35,11 +35,11 @@ class ActionData {
 
     static void alter_data(){
 
-        for (int i = 0; i < hm_actions; i++){
+        for (int id = 0; id < hm_actions; id++){
 
-            if (random.nextFloat() < random.nextFloat()) win_rates.set(i, random.nextFloat());
-            if (random.nextFloat() < random.nextFloat()) gains.set(i, random.nextFloat());
-            if (random.nextFloat() < random.nextFloat()) losses.set(i, random.nextFloat());
+            if (random.nextFloat() < random.nextFloat()) win_rates.set(id, random.nextFloat());
+            if (random.nextFloat() < random.nextFloat()) gains.set(id, random.nextFloat());
+            if (random.nextFloat() < random.nextFloat()) losses.set(id, random.nextFloat());
 
         }
 
