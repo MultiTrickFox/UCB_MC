@@ -9,7 +9,7 @@ public class Run {
 
     static int how_many_actions           = 5;
     static int ucb_steps_min              = 10;
-    static int ucb_steps_max              = 200;
+    static int ucb_steps_max              = 300;
                                                     // 0 - ucb basic (for static data)
     static int simulation_id              = 0;      // 1 - ucb discounted (for dynamic data)
                                                     // 2 - ucb sliding window (for dynamic data)
@@ -106,9 +106,10 @@ public class Run {
 
         for (float rate : carlo_list) {
 
-            if (rate / expected_rate > 0.8) {
+            if (rate / expected_rate > 0.9) {
 
                 recommended_step = carlo_list.indexOf(rate);
+                expected_rate = rate;
                 break;
             }
 
