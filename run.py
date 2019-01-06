@@ -6,7 +6,7 @@ import ucb_simple
 
 hm_actions = 10
 
-ucb_steps_upto = 500
+ucb_steps_upto = 10
 
 hm_carlo = 100_000
 
@@ -23,7 +23,8 @@ def run():
 
     print(' 0- ucb basic         \n',
           '1- ucb discounted     \n',
-          '2- ucb sliding window \n')
+          '2- ucb sliding window \n'
+          )
 
     # eval brute expected
 
@@ -34,10 +35,10 @@ def run():
     for test in input('> Enter nrs with , : ').split(','):
         fn = tests[int(test)]
         step_size, accuracy = monte_carlo(fn, (be_id, be_data))
-        print(f'{fn}, monte carlo suggest step_size : {step_size} w/ accuracy : {accuracy}')
+        print(f'{fn}, monte carlo suggest step_size : {step_size} w/ gain : {accuracy}')
 
 
-def monte_carlo(fn, answers):
+def monte_carlo(fn, answers, do_print=True):
     brute_max, brute_expected = answers
 
     step_expecteds = []
@@ -54,16 +55,21 @@ def monte_carlo(fn, answers):
             f.upp_confidences = [999.9 for _ in range(hm_actions)]
 
             id, exp = eval((fn + '.run'))(do_print=False)
-            if id == brute_max:
-                step_exp +=1
-            elif round(exp,1) == round(brute_expected[id],1):
-                step_exp +=0.2
-            # else:
-            #     step_exp -=1
-        print(step,step_exp,step_exp / hm_carlo)     # todo : remove me
-        step_expecteds.append(step_exp / hm_carlo)
 
-    return argmax(step_expecteds)+1, max(step_expecteds)
+            step_exp += 1 - (brute_expected[brute_max]-exp)
+
+            # if id == brute_max:
+            #     step_exp +=1
+            # elif round(exp,1) == round(brute_expected[id],1):
+            #     step_exp +=0.2
+            # # else:
+            # #     step_exp -=1
+        step_expecteds.append(step_exp)
+        if do_print:
+            print(f'fn: {fn}, step: {step}, gain: {step_exp / hm_carlo}')
+
+
+    return argmax(step_expecteds)+1, max(step_expecteds) / hm_carlo
 
 
 def argmax(array):

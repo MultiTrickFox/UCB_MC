@@ -1,6 +1,6 @@
 from random import random
 
-hm_step = 1_000_000
+hm_step = 10_000_000
 
 
 hm_actions = 12
@@ -22,18 +22,17 @@ def run():
                 e += losses[_]
             else:
                 e += gains[_]
-        expecteds.append(e)
+        expecteds.append(e/hm_step)
 
     # results
 
     print('Brute expected gains:')
     for _, e in enumerate(expecteds):
-        actual_e = win_rates[_] * gains[_] - (1-win_rates[_]) * losses[_]
-        print(f'E[{_}] = {e / hm_step}')
-        print(f'actual_e:{actual_e}')
-        print('brute is ' + ('close.' if round(actual_e,1) == round(e,1) else 'off.'))
+        # actual_e = win_rates[_] * gains[_] - (1-win_rates[_]) * losses[_]
+        print(f'E[{_}] = {e}')
+        # , f'actual_e:{round(actual_e,2)}', 'brute is ' + ('close.' if round(actual_e,1) == round(e,1) else 'off.'))
     max_expected = argmax(expecteds)
-    print(f'max(br) = {max_expected}')
+    print(f'Brute detected max gain on: {max_expected}')
 
     return max_expected, expecteds
 
