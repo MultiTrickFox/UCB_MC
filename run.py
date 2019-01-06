@@ -6,9 +6,9 @@ import ucb_simple
 
 hm_actions = 10
 
-ucb_steps_upto = 10
+ucb_steps_upto = 35
 
-hm_carlo = 100_000
+hm_carlo = 1_000_000
 
 
 def run():
@@ -17,22 +17,22 @@ def run():
 
     init_modules()
 
-    # init vars
-
     tests = ['ucb_simple']
 
-    print(' 0- ucb basic         \n',
+    # eval brute expected
+
+    print('> Evaluating gains..')
+    be_id, be_data = brute_expected.run()
+
+    # apply monte_carlo(test) for test in tests
+
+    print('                      \n',
+          '0- ucb basic          \n',
           '1- ucb discounted     \n',
           '2- ucb sliding window \n'
           )
 
-    # eval brute expected
-
-    be_id, be_data = brute_expected.run()
-
-    # eval
-
-    for test in input('> Enter nrs with , : ').split(','):
+    for test in input('> Enter ucb_ids with , : ').split(','):
         fn = tests[int(test)]
         step_size, accuracy = monte_carlo(fn, (be_id, be_data))
         print(f'{fn}, monte carlo suggest step_size : {step_size} w/ gain : {accuracy}')
@@ -56,17 +56,17 @@ def monte_carlo(fn, answers, do_print=True):
 
             id, exp = eval((fn + '.run'))(do_print=False)
 
-            step_exp += 1 - (brute_expected[brute_max]-exp)
+            # step_exp += 1 - (brute_expected[brute_max]-exp)
 
-            # if id == brute_max:
-            #     step_exp +=1
-            # elif round(exp,1) == round(brute_expected[id],1):
-            #     step_exp +=0.2
-            # # else:
-            # #     step_exp -=1
+            if id == brute_max:
+                step_exp +=1
+            elif round(exp,1) == round(brute_expected[id],1):
+                step_exp +=0.2
+            # else:
+            #     step_exp -=1
         step_expecteds.append(step_exp)
         if do_print:
-            print(f'fn: {fn}, step: {step}, gain: {step_exp / hm_carlo}')
+            print(f'> fn: {fn}, step: {step}, accuracy: {step_exp / hm_carlo}')
 
 
     return argmax(step_expecteds)+1, max(step_expecteds) / hm_carlo
@@ -96,7 +96,7 @@ def init_modules():
     ucb_simple.reward_sums     = [0 for _ in range(hm_actions)]
     ucb_simple.upp_confidences = [999.9 for _ in range(hm_actions)]
 
-
+    print('> Data initialized.')
 
 
 

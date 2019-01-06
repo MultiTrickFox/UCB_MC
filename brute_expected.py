@@ -26,13 +26,13 @@ def run():
 
     # results
 
-    print('Brute expected gains:')
+    print('Bruted expected gains:')
     for _, e in enumerate(expecteds):
         # actual_e = win_rates[_] * gains[_] - (1-win_rates[_]) * losses[_]
         print(f'E[{_}] = {e}')
         # , f'actual_e:{round(actual_e,2)}', 'brute is ' + ('close.' if round(actual_e,1) == round(e,1) else 'off.'))
     max_expected = argmax(expecteds)
-    print(f'Brute detected max gain on: {max_expected}')
+    print(f'Bruted max gain on action: {max_expected}')
 
     return max_expected, expecteds
 
