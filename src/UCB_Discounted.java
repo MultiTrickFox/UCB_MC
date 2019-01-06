@@ -1,12 +1,12 @@
 class UCB_Discounted {
 
 
-    static int[] get_result(){
+    static double[] get_result(){
 
 
 
 
-        int[] ret = {};
+        double[] ret = {};
         return ret;
     }
 

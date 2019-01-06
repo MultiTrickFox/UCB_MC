@@ -1,12 +1,12 @@
 class UCB_Sliding_Window {
 
 
-    static int[] get_result(){
+    static double[] get_result(){
 
 
 
 
-        int[] ret = {};
+        double[] ret = {};
         return ret;
     }
 

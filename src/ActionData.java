@@ -7,9 +7,9 @@ class ActionData {
 
     static int hm_actions = 2;
 
-    static ArrayList<Float> win_rates;
-    static ArrayList<Float>     gains;
-    static ArrayList<Float>    losses;
+    static ArrayList<Double> win_rates;
+    static ArrayList<Double>     gains;
+    static ArrayList<Double>    losses;
 
     static private Random random;
 
@@ -24,9 +24,9 @@ class ActionData {
 
         for (int id = 0; id < hm_actions; id++){
 
-            win_rates.add(random.nextFloat());
-            gains.add(random.nextFloat());
-            losses.add(random.nextFloat());
+            win_rates.add(random.nextDouble());
+            gains.add(random.nextDouble());
+            losses.add(random.nextDouble());
 
         }
 
@@ -37,13 +37,21 @@ class ActionData {
 
         for (int id = 0; id < hm_actions; id++){
 
-            if (random.nextFloat() < random.nextFloat()) win_rates.set(id, random.nextFloat());
-            if (random.nextFloat() < random.nextFloat()) gains.set(id, random.nextFloat());
-            if (random.nextFloat() < random.nextFloat()) losses.set(id, random.nextFloat());
+            if (random.nextDouble() < random.nextDouble()) win_rates.set(id, random.nextDouble());
+            if (random.nextDouble() < random.nextDouble()) gains.set(id, random.nextDouble());
+            if (random.nextDouble() < random.nextDouble()) losses.set(id, random.nextDouble());
 
         }
 
     }
 
 
+    static double act(int action_id){
+        
+        if (random.nextDouble() > win_rates.get(action_id)) return gains.get(action_id);
+        else                                                return losses.get(action_id);
+            
+    }
+
+    
 }
