@@ -34,8 +34,7 @@ class Brute {
         double max_val = Collections.max(expecteds);
         int max_index = expecteds.indexOf(max_val);
 
-        double[] ret = {max_index, max_val};
-        return ret;
+        return new double[]{max_index, max_val};
     }
 
 

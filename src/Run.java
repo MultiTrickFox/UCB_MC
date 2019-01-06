@@ -35,8 +35,8 @@ public class Run {
             for (int hm_steps = ucb_steps_min; hm_steps < ucb_steps_max; hm_steps++) {
 
                 UCB_1.init();
-                UCB_Discounted.init();
-                UCB_Sliding_Window.init();
+//                UCB_Discounted.init();
+//                UCB_Sliding_Window.init();
 
                 double step_correctness_ucb       = 0.0;
                 double step_correctness_ucbdisc   = 0.0;
@@ -45,8 +45,8 @@ public class Run {
                 for (int step = 0; step < hm_steps; step++) {
 
                     UCB_1.forward();
-                    UCB_Discounted.forward;
-                    UCB_Sliding_Window.forward();
+//                    UCB_Discounted.forward;
+//                    UCB_Sliding_Window.forward();
 
                     if (dynamic_data) {
 
