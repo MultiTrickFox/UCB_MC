@@ -1,10 +1,10 @@
-from random import random, choices, randint
+from random import random, choices
 from math import log, sqrt
 
 
 hm_actions = 10
 
-hm_steps = 1_000
+hm_steps = 500
 
 
 win_rates = [random() for _ in range(hm_actions)]
@@ -18,11 +18,11 @@ upp_confidences = [999.9 for _ in range(hm_actions)]
 t = 0
 
 
-def run():
+def run(do_print=True):
 
     # initial exploration
 
-    initial_actions = choices(range(hm_actions), k=randint(0, hm_actions - 1))
+    initial_actions = choices(range(hm_actions), k=int(hm_actions*37/100))  # k=randint(0, hm_actions - 1))
 
     for id in initial_actions:
         reward = act(id)
@@ -43,15 +43,18 @@ def run():
             id_confident = next_win-1
         else:
             id_confident = next_win+1
-    print(f'Winner : action{id_confident}')
+
     expected_gain = reward_sums[id_confident] / played_times[id_confident]
 
-    print('UCB-1 learned:')
-    for _, (pt, rs, uc) in enumerate(zip(played_times, reward_sums, upp_confidences)):
-        print(f'\t id:{_}, \n'
-              f'upper_confidence:{round(uc, 5)} \n'
-              f'played_time:{pt} \n'
-              f'reward_avg:{rs / played_times[_] if played_times[_] != 0 else None}')
+    if do_print:
+        print(f'Winner : action{id_confident}')
+
+        print('UCB-1 learned:')
+        for _, (pt, rs, uc) in enumerate(zip(played_times, reward_sums, upp_confidences)):
+            print(f'\t id:{_}, \n'
+                  f'upper_confidence:{round(uc, 5)} \n'
+                  f'played_time:{pt} \n'
+                  f'reward_avg:{rs / played_times[_] if played_times[_] != 0 else None}')
 
     return id_confident, expected_gain
 

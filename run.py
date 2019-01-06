@@ -1,12 +1,14 @@
 from random import random
 
-import monte_carlo
+import brute_expected
 import ucb_simple
 
 
-hm_actions = 5
+hm_actions = 10
 
-hm_ucb_steps = 45
+ucb_steps_upto = 500
+
+hm_carlo = 100_000
 
 
 def run():
@@ -15,27 +17,53 @@ def run():
 
     init_modules()
 
-    tests = ['monte_carlo.run', 'ucb_simple.run']
-    ids, exps = [], []
+    # init vars
 
-    print(' 0- monte carlo        \n',
-          '1- ucb 1              \n',
-          '2- ucb discounted     \n',
-          '3- ucb sliding window \n')
+    tests = ['ucb_simple']
 
-    for test in input('> Enter 0-3s with , : ').split(','):
-        id, exp = eval(tests[int(test)])()
-        ids.append(id)
-        exps.append(exp)
+    print(' 0- ucb basic         \n',
+          '1- ucb discounted     \n',
+          '2- ucb sliding window \n')
 
-    print('\t test \t confident_action \t expected_reward')
-    for _, (id, exp) in enumerate(zip(ids, exps)):
-        print(f'{tests[_][:-4]} \t {id} \t {exp}')
+    # eval brute expected
+
+    be_id, be_data = brute_expected.run()
+
+    # eval
+
+    for test in input('> Enter nrs with , : ').split(','):
+        fn = tests[int(test)]
+        step_size, accuracy = monte_carlo(fn, (be_id, be_data))
+        print(f'{fn}, monte carlo suggest step_size : {step_size} w/ accuracy : {accuracy}')
 
 
+def monte_carlo(fn, answers):
+    brute_max, brute_expected = answers
 
+    step_expecteds = []
+    for step in range(1, ucb_steps_upto):
+        f = eval(fn)
+        f.hm_steps = step
 
+        step_exp = 0
+        for _ in range(hm_carlo):
 
+            f.t = 0
+            f.played_times    = [0 for _ in range(hm_actions)]
+            f.reward_sums     = [0 for _ in range(hm_actions)]
+            f.upp_confidences = [999.9 for _ in range(hm_actions)]
+
+            id, exp = eval((fn + '.run'))(do_print=False)
+            if id == brute_max:
+                step_exp +=1
+            elif round(exp,1) == round(brute_expected[id],1):
+                step_exp +=0.2
+            # else:
+            #     step_exp -=1
+        print(step,step_exp,step_exp / hm_carlo)     # todo : remove me
+        step_expecteds.append(step_exp / hm_carlo)
+
+    return argmax(step_expecteds)+1, max(step_expecteds)
 
 
 def argmax(array):
@@ -48,13 +76,12 @@ def init_modules():
     gains     = [random() for _ in range(hm_actions)]
     losses    = [random() for _ in range(hm_actions)]
 
-    monte_carlo.hm_actions = hm_actions
-    monte_carlo.win_rates  = win_rates
-    monte_carlo.gains      = gains
-    monte_carlo.losses      = losses
+    brute_expected.hm_actions = hm_actions
+    brute_expected.win_rates  = win_rates
+    brute_expected.gains      = gains
+    brute_expected.losses     = losses
 
     ucb_simple.hm_actions = hm_actions
-    ucb_simple.hm_steps   = hm_ucb_steps
     ucb_simple.win_rates  = win_rates
     ucb_simple.gains      = gains
     ucb_simple.losses     = losses
