@@ -6,9 +6,9 @@ import ucb_simple
 
 hm_actions = 10
 
-ucb_steps_upto = 35
+ucb_steps_upto = 100
 
-hm_carlo = 1_000_000
+hm_carlo = 50_000
 
 
 def run():
@@ -34,8 +34,8 @@ def run():
 
     for test in input('> Enter ucb_ids with , : ').split(','):
         fn = tests[int(test)]
-        step_size, accuracy = monte_carlo(fn, (be_id, be_data))
-        print(f'{fn}, monte carlo suggest step_size : {step_size} w/ gain : {accuracy}')
+        step_size, gain = monte_carlo(fn, (be_id, be_data))
+        print(f'{fn}, monte carlo suggest step_size : {step_size} w/ gain : {gain}')
 
 
 def monte_carlo(fn, answers, do_print=True):
@@ -56,18 +56,17 @@ def monte_carlo(fn, answers, do_print=True):
 
             id, exp = eval((fn + '.run'))(do_print=False)
 
-            # step_exp += 1 - (brute_expected[brute_max]-exp)
+            step_exp += exp/brute_expected[brute_max]
 
-            if id == brute_max:
-                step_exp +=1
-            elif round(exp,1) == round(brute_expected[id],1):
-                step_exp +=0.2
+            # if id == brute_max:
+            #     step_exp +=1
+            # elif round(exp,1) == round(brute_expected[id],1):
+            #     step_exp +=0.2
             # else:
             #     step_exp -=1
         step_expecteds.append(step_exp)
         if do_print:
-            print(f'> fn: {fn}, step: {step}, accuracy: {step_exp / hm_carlo}')
-
+            print(f'> fn: {fn}, step: {step}, gain: {step_exp / hm_carlo}')
 
     return argmax(step_expecteds)+1, max(step_expecteds) / hm_carlo
 
