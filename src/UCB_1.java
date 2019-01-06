@@ -1,7 +1,5 @@
 import java.util.*;
-
-import static java.lang.Math.log;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 
 
 class UCB_1 {
@@ -85,6 +83,20 @@ class UCB_1 {
 
             max_index = next_max_index -1;
 
+        }
+
+        double max_reward = reward_sums[max_index];
+
+        int index = 0;
+        for (double reward : reward_sums) {
+
+            if (reward / max_reward > 0.8) {
+
+                max_index = index;
+                break;
+            }
+
+            index +=1;
         }
 
         double max_expected = reward_sums[max_index] / played_times[max_index];

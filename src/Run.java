@@ -9,7 +9,7 @@ public class Run {
 
     static int how_many_actions           = 5;
     static int ucb_steps_min              = 10;
-    static int ucb_steps_max              = 100;
+    static int ucb_steps_max              = 200;
                                                     // 0 - ucb basic (for static data)
     static int simulation_id              = 0;      // 1 - ucb discounted (for dynamic data)
                                                     // 2 - ucb sliding window (for dynamic data)
@@ -89,6 +89,8 @@ public class Run {
 
         }
 
+        System.out.println("\n Step Range Results \n");
+
         for (int i = 0; i < step_range; i++) {
             System.out.print("Step " + (i + ucb_steps_min) + " : ");
 
@@ -120,7 +122,7 @@ public class Run {
         float ucb1_expected_gain = (float) results[1];
 
         System.out.println("UCB recommended steps: " + ucb1_optimal_steps);
-        System.out.println("UCB expected accuracy: " + ucb1_expected_gain * 100);
+        System.out.println("UCB expected accuracy: " + ucb1_expected_gain);
 
     }
 
