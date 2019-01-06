@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f3e267a-a1ba-416b-b489-2a99dfde080b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ucb_mc/Run.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ucb_mc/Run.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Run.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Run.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -18,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Run.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+            <state relative-caret-position="464">
+              <caret line="130" column="58" selection-start-line="130" selection-start-column="58" selection-end-line="130" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -39,11 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/UCB_1.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="90" selection-start-line="90" selection-end-line="90" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state>
+              <caret column="19" lean-forward="true" selection-start-column="19" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -132,7 +127,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546785116612" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546787707299" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -194,7 +189,7 @@
       <window_info anchor="bottom" id="Version Control" order="2" />
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" />
-      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.36386767" />
+      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.29389313" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.43638676" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
@@ -210,16 +205,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ActionData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/UCB_Discounted.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -234,6 +219,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/UCB_1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="19" lean-forward="true" selection-start-column="19" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Brute.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -244,10 +236,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/UCB_1.java">
+    <entry file="file://$PROJECT_DIR$/src/ActionData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="90" selection-start-line="90" selection-end-line="90" />
+        <state relative-caret-position="60">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -256,8 +248,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Run.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+        <state relative-caret-position="464">
+          <caret line="130" column="58" selection-start-line="130" selection-start-column="58" selection-end-line="130" selection-end-column="58" />
         </state>
       </provider>
     </entry>
