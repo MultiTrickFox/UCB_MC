@@ -90,9 +90,9 @@ public class Run {
         }
 
         for (int i = 0; i < step_range; i++) {
-            System.out.print("Step " + i + " : ");
+            System.out.print("Step " + (i + ucb_steps_min) + " : ");
 
-            step_gains[i]      /= how_many_monte_carlo;
+            step_gains[i] /= how_many_monte_carlo;
 
             System.out.println(step_gains[i]);
         }
@@ -119,8 +119,8 @@ public class Run {
         int ucb1_optimal_steps = (int) results[0];
         float ucb1_expected_gain = (float) results[1];
 
-        System.out.println("UCB-1 recommended steps: " + ucb1_optimal_steps);
-        System.out.println("UCB-1 expected accuracy: " + ucb1_expected_gain);
+        System.out.println("UCB recommended steps: " + ucb1_optimal_steps);
+        System.out.println("UCB expected accuracy: " + ucb1_expected_gain * 100);
 
     }
 
