@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 public class Run {
 
 
@@ -8,36 +9,29 @@ public class Run {
 
     static int how_many_actions           = 5;
     static int ucb_steps_min              = 10;
-    static int ucb_steps_max              = 50;
-
+    static int ucb_steps_max              = 100;
+                                                    // 0 - ucb basic (for static data)
+    static int simulation_id              = 0;      // 1 - ucb discounted (for dynamic data)
+                                                    // 2 - ucb sliding window (for dynamic data)
     static boolean simulate_dynamic_data  = false;
-
-
 
 
 
     public static Object[] run_monte_carlo_suggestion(){
 
+
         ActionData.hm_actions = how_many_actions;
 
-        int carlo_range = ucb_steps_max - ucb_steps_min;
+        int step_range = ucb_steps_max - ucb_steps_min;
 
-        Float[] carlo_gains_ucb1      = new Float[carlo_range];
-        Float[] carlo_gains_ucbdisc   = new Float[carlo_range];
-        Float[] carlo_gains_ucbslidew = new Float[carlo_range];
-
-        for (int i = 0; i < carlo_range; i++) {
-
-            carlo_gains_ucb1[i]      = (float) 0;
-            carlo_gains_ucbdisc[i]   = (float) 0;
-            carlo_gains_ucbslidew[i] = (float) 0;
-
+        Float[] step_gains = new Float[step_range];
+        for (int i = 0; i < step_range; i++) {
+            step_gains[i] = (float) 0;
         }
 
 
         for (int s = 0; s < how_many_monte_carlo; s++) {
-
-            // System.out.println("simulating carlo : " + s);
+            System.out.println("monte carlo epoch : " + s);
 
             ActionData.initialize_data();
 
@@ -46,24 +40,23 @@ public class Run {
             double confident_action_brute = ret0[0];
             //double expected_gain_brute    = ret0[1];
 
-
             for (int hm_steps = ucb_steps_min; hm_steps < ucb_steps_max; hm_steps++) {
 
-                UCB_1.init();
-//                UCB_Discounted.init();
-//                UCB_Sliding_Window.init();
+                if      (simulation_id == 0) UCB_1.init();
+                // else if (simulation_id == 1) UCB_Discounted.init();
+                // else if (simulation_id == 2) UCB_Sliding_Window.init();
 
                 for (int step = 0; step < hm_steps; step++) {
 
-                    UCB_1.forward();
-//                    UCB_Discounted.forward;
-//                    UCB_Sliding_Window.forward();
+                    if      (simulation_id == 0) UCB_1.forward();
+                    // else if (simulation_id == 1) UCB_Discounted.forward();
+                    // else if (simulation_id == 2) UCB_Sliding_Window.forward();
 
                     if (simulate_dynamic_data) {
 
                         ActionData.alter_data();
 
-                        Brute.init();
+                        Brute.forward();
                         ret0 = Brute.get_result();
                         confident_action_brute = ret0[0];
                         // expected_gain_brute    = ret0[1];
@@ -72,66 +65,48 @@ public class Run {
 
                 }
 
+                double[] ret;
+                if (simulation_id == 0) {
+                    ret = UCB_1.get_result();
+                    // double expected_rate    = ret[1];
+                }
+                else if (simulation_id == 1) {
+                    ret = UCB_Discounted.get_result();
+                    // double expected_rate    = ret1[1];
+                }
+                else if (simulation_id == 2) {
+                    ret = UCB_Sliding_Window.get_result();
+                    // double expected_rate    = ret1[1];
+                }
+                else {ret = new double[1];}
 
-                double[] ret1 = UCB_1.get_result();
-                double confident_action_ucb1 = ret1[0];
-                // double expected_rate_ucb1    = ret1[1];
+                double confident_action = ret[0];
+                int carlo_index = hm_steps - ucb_steps_min;
 
-                double[] ret2 = UCB_Discounted.get_result();
-                double confident_action_ucbdisc = ret2[0];
-                // double expected_rate_ucbdisc    = ret2[1];
-
-                double[] ret3 = UCB_Sliding_Window.get_result();
-                double confident_action_ucbslidew = ret3[0];
-                // double expected_rate_ucbslidew    = ret3[1];
-
-                int carlo_id = hm_steps - ucb_steps_min;
-
-                if (confident_action_ucb1      == confident_action_brute) carlo_gains_ucb1[carlo_id]       +=1;
-                if (confident_action_ucbdisc   == confident_action_brute) carlo_gains_ucbdisc[carlo_id]    +=1;
-                if (confident_action_ucbslidew == confident_action_brute) carlo_gains_ucbslidew[carlo_id]  +=1;
+                if (confident_action == confident_action_brute) step_gains[carlo_index] +=1;
 
             }
 
         }
 
-        for (int i = 0; i < carlo_range; i++) {
+        for (int i = 0; i < step_range; i++) {
+            System.out.print("Step " + i + " : ");
 
-            // System.out.print("Step " + i + " : ");
+            step_gains[i]      /= how_many_monte_carlo;
 
-            carlo_gains_ucb1[i]      /= how_many_monte_carlo;
-            carlo_gains_ucbdisc[i]   /= how_many_monte_carlo;
-            carlo_gains_ucbslidew[i] /= how_many_monte_carlo;
-
-            // System.out.println(carlo_gains_ucb1[i]);
-
+            System.out.println(step_gains[i]);
         }
 
+        List<Float> carlo_list = Arrays.asList(step_gains);
 
-        List<Float> carlo_list_ucb1 = Arrays.asList(carlo_gains_ucb1);
-        List<Float> carlo_list_ucbdisc = Arrays.asList(carlo_gains_ucb1);
-        List<Float> carlo_list_ucbslidew = Arrays.asList(carlo_gains_ucb1);
-
-        float expected_rate_ucb1 = Collections.max(carlo_list_ucb1);
-        int recommended_step_ucb1 = carlo_list_ucb1.indexOf(expected_rate_ucb1);
-
-        float expected_rate_ucbdisc = Collections.max(carlo_list_ucbdisc);
-        int recommended_step_ucbdisc = carlo_list_ucb1.indexOf(expected_rate_ucbdisc);
-
-        float expected_rate_ucbslidew = Collections.max(carlo_list_ucbslidew);
-        int recommended_step_ucbslidew = carlo_list_ucb1.indexOf(expected_rate_ucbslidew);
-
+        float expected_rate = Collections.max(carlo_list);
+        int recommended_step = carlo_list.indexOf(expected_rate);
 
         return new Object[]{
 
-                recommended_step_ucb1 + ucb_steps_min,
-                expected_rate_ucb1 * 100,
+                recommended_step + ucb_steps_min,
+                expected_rate * 100,
 
-                recommended_step_ucbdisc + ucb_steps_min,
-                expected_rate_ucbdisc * 100,
-
-                recommended_step_ucbslidew + ucb_steps_min,
-                expected_rate_ucbslidew * 100
         };
 
     }
@@ -146,9 +121,6 @@ public class Run {
 
         System.out.println("UCB-1 recommended steps: " + ucb1_optimal_steps);
         System.out.println("UCB-1 expected accuracy: " + ucb1_expected_gain);
-
-
-        // start training.. ?
 
     }
 
