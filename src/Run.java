@@ -104,6 +104,16 @@ public class Run {
         float expected_rate = Collections.max(carlo_list);
         int recommended_step = carlo_list.indexOf(expected_rate);
 
+        for (float rate : carlo_list) {
+
+            if (rate / expected_rate > 0.8) {
+
+                recommended_step = carlo_list.indexOf(rate);
+                break;
+            }
+
+        }
+
         return new Object[]{
 
                 recommended_step + ucb_steps_min,
